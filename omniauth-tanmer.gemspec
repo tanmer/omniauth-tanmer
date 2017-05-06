@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['xiaohui@tanmer.com']
   gem.description   = %q{This is the strategy for authenticating to your Tanmer service}
   gem.summary       = %q{This is the strategy for authenticating to your Tanmer service}
-  gem.homepage      = 'https://gitlab.tanmer.com/tanmer/omniauth-tanmer'
+  gem.homepage      = 'https://github.com/tanmer/omniauth-tanmer'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
