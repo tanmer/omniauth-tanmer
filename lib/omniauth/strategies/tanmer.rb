@@ -5,7 +5,7 @@ module OmniAuth
     class Tanmer < OmniAuth::Strategies::OAuth2
 
       option :client_options, {
-        site: 'https://login.tanmer.com',
+        site: 'https://account.tanmer.com',
         authorize_url: '/oauth/authorize',
         token_url: '/oauth/token'
       }
@@ -27,7 +27,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('/api/v1/user').parsed
+        @raw_info ||= access_token.get('/api/v1/users/profile').parsed
       end
 
       private

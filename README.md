@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Usage
 
     use OmniAuth::Builder do
-      provider :tanmer, ENV['TANMER_KEY'], ENV['TANMER_SECRET']
+      provider :tanmer, ENV['TANMER_KEY'], ENV['TANMER_SECRET'], scope: 'tanmer_service'
     end
 
 ## Contributing

@@ -32,7 +32,7 @@ describe OmniAuth::Strategies::Tanmer do
     context 'with defaults' do
       subject { tanmer_service.options.client_options }
 
-      its(:site) { is_expected.to eq 'https://login.tanmer.com' }
+      its(:site) { is_expected.to eq 'https://account.tanmer.com' }
       its(:authorize_url) { is_expected.to eq '/oauth/authorize' }
       its(:token_url) { is_expected.to eq '/oauth/token' }
     end
@@ -60,7 +60,7 @@ describe OmniAuth::Strategies::Tanmer do
 
   describe '#raw_info' do
     it 'sent request to current user endpoint' do
-      expect(access_token).to receive(:get).with('/api/v1/user').and_return(response)
+      expect(access_token).to receive(:get).with('/api/v1/users/profile').and_return(response)
       expect(subject.raw_info).to eq(parsed_response)
     end
   end
