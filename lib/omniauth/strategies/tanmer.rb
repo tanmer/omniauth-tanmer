@@ -12,7 +12,7 @@ module OmniAuth
 
       option :redirect_url
 
-      uid { raw_info['uid'] }
+      uid { raw_info['id'] }
 
       info do
         {
