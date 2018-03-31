@@ -11,13 +11,13 @@ module Omniauth
         @conn = Faraday.new(oauth_host)
       end
 
-      def remote_permissions
-        return @remote_permissions if defined?(@remote_permissions)
+      def remote
         resp = conn.get('/api/v1/permissions.json', app_id: app_id, sn: generate_sn(SecureRandom.uuid))
-        @remote_permissions = JSON.parse(resp.body).map(&:symbolize_keys)
+        JSON.parse(resp.body).map(&:symbolize_keys)
       end
 
       def sync(permissions)
+        remote_permissions = remote
         puts "have #{permissions.size} permissions defined"
         puts "got #{remote_permissions.size} permissions from API"
 
@@ -57,15 +57,15 @@ module Omniauth
         puts "#{permissions_to_update.size} permissions will be updated"
 
         permissions_to_destroy.each do |perm|
-          resp = conn.delete("/api/v1/permissions/#{perm[:id]}", app_id: app_id, sn: generate_sn(app_secret, SecureRandom.uuid))
+          resp = conn.delete("/api/v1/permissions/#{perm[:id]}", app_id: app_id, sn: generate_sn(SecureRandom.uuid))
         end
 
         permissions_to_update.each do |id, perm|
-          resp = conn.put("/api/v1/permissions/#{id}", permission: perm, app_id: app_id, sn: generate_sn(app_secret, SecureRandom.uuid))
+          resp = conn.put("/api/v1/permissions/#{id}", permission: perm, app_id: app_id, sn: generate_sn(SecureRandom.uuid))
         end
 
         permissions_to_create.each do |perm|
-          resp = conn.post("/api/v1/permissions", permission: perm, app_id: app_id, sn: generate_sn(app_secret, SecureRandom.uuid))
+          resp = conn.post("/api/v1/permissions", permission: perm, app_id: app_id, sn: generate_sn(SecureRandom.uuid))
           data = JSON.parse(resp.body)
         end
         {
