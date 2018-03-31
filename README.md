@@ -3,7 +3,7 @@
 This is the OAuth2 strategy for authenticating to your Tanmer service.
 
 ## Requirements
- 
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -20,9 +20,31 @@ Or install it yourself as:
 
 ## Usage
 
-    use OmniAuth::Builder do
-      provider :tanmer, ENV['TANMER_KEY'], ENV['TANMER_SECRET'], scope: 'tanmer_service'
+Put below code to `config/application.rb`:
+
+    config.middleware.use OmniAuth::Builder do
+        provider :tanmer, ENV['OAUTH_TANMER_KEY'], ENV['OAUTH_TANMER_SECRET'],
+        scope: 'public',
+        client_options: { site: ENV['OAUTH_TANMER_SITE'] }
     end
+
+## Features
+
+Sync permissions:
+
+```ruby
+current_permissions = [
+  { name: '查看', group_name: '会员', subject_class: 'Member', subject_id: nil, action: 'show', description: '' },
+  { name: '创建', group_name: '会员', subject_class: 'Member', subject_id: nil, action: 'create', description: '' },
+  { name: '修改', group_name: '会员', subject_class: 'Member', subject_id: nil, action: 'update', description: '' },
+  { name: '删除', group_name: '会员', subject_class: 'Member', subject_id: nil, action: 'destroy', description: '' },
+]
+
+client = Omniauth::Tanmer::Permission.new(ENV['OAUTH_TANMER_HOST'], ENV['OAUTH_TANMER_KEY'], ENV['OAUTH_TANMER_SECRET'])
+client.sync(current_permissions)
+```
+
+This will sync permission definitions between local project and SSO.
 
 ## Contributing
 
