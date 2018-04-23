@@ -25,8 +25,13 @@ Put below code to `config/application.rb`:
     config.middleware.use OmniAuth::Builder do
         provider :tanmer, ENV['OAUTH_TANMER_KEY'], ENV['OAUTH_TANMER_SECRET'],
         scope: 'public',
-        client_options: { site: ENV['OAUTH_TANMER_SITE'] }
+        client_options: { 
+            site: ENV['OAUTH_TANMER_SITE'],
+            authorize_url: ENV['OAUTH_TANMER_AUTH_URL'] || '/oauth/authorize'
+        }
     end
+
+Like docker-compose/kubernetes infrastructure, we set `ENV['OAUTH_TANMER_SITE']='http://sso`, then user frontend will redirect to `http://sso/oauth/authorize`， To fix this, we can define `ENV['OAUTH_TANMER_AUTH_URL']='http://sso.my-site.com/oauth/authorize'`
 
 ## Features
 
